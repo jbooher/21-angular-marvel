@@ -103,17 +103,35 @@ class CharacterController {
 			.then((response) => {
 				console.log(response);
 				this.description = response.data.results[0].description;
-				console.log(this.description);
 				this.id = response.data.results[0].id;
-				console.log(this.id);
 				this.image = `${response.data.results[0].thumbnail.path}.${response.data.results[0].thumbnail.extension}`;
-				console.log(this.image);
 
 				document.querySelector(".loading").classList.add("hidden");
 
-				this._$scope.$digest();
+				this.getComicData();
+
+				// this._$scope.$digest();
 			}).catch((e) => {
 				document.querySelector(".loading").classList.add("hidden");
+			});
+	}
+
+	getComicData() {
+		const token = `6e7bd33438a14b84d91097cd3cfc46b5`;
+
+		fetch(`http://gateway.marvel.com:80/v1/public/characters/${this.id}/comics?limit=100&apikey=${token}`)
+			.then((response) => {
+				return response.json();
+			})
+			.then((response) => {
+				console.log(response);
+				let comics = response.data.results;
+				let randomNum = Math.floor(Math.random() * (comics.length - 1));
+				console.log(comics[randomNum]);
+				this.comic = `${comics[randomNum].thumbnail.path}.${comics[randomNum].thumbnail.extension}`;
+				console.log(this.comic);
+
+				this._$scope.$digest();
 			});
 	}
 }
