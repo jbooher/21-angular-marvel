@@ -26,6 +26,14 @@ var App = angular.module('app', ['ui.router']);
 */
 
 function config($stateProvider, $urlRouterProvider) {
+	$stateProvider
+		.state('character', {
+			url: '/characters/:name',
+			controller: "CharacterController as charCtrl",
+			template: require('./views/character.html')
+		});
+
+		$urlRouterProvider.otherwise("/characters/Captain America");
 }
 
 App.config(config);
@@ -79,8 +87,54 @@ App.config(config);
 class CharacterController {
 
 	constructor($scope, $stateParams) {
+		this.name = $stateParams.name;
+		this._$scope = $scope;
+		this.getData();
+		document.querySelector(".loading").classList.remove("hidden");
 	}
 
+	getData() {
+		const token = `6e7bd33438a14b84d91097cd3cfc46b5`;
+
+		fetch(`http://gateway.marvel.com:80/v1/public/characters?name=${this.name}&apikey=${token}`)
+			.then((response) => {
+				return response.json();
+			})
+			.then((response) => {
+				console.log(response);
+				this.description = response.data.results[0].description;
+				this.id = response.data.results[0].id;
+				this.image = `${response.data.results[0].thumbnail.path}.${response.data.results[0].thumbnail.extension}`;
+
+				document.querySelector(".loading").classList.add("hidden");
+
+				this.getComicData();
+
+				this._$scope.$digest();
+			}).catch((e) => {
+				document.querySelector(".loading").classList.add("hidden");
+			});
+	}
+
+	getComicData() {
+		const token = `6e7bd33438a14b84d91097cd3cfc46b5`;
+
+		fetch(`http://gateway.marvel.com:80/v1/public/characters/${this.id}/comics?limit=100&apikey=${token}`)
+			.then((response) => {
+				return response.json();
+			})
+			.then((response) => {
+				console.log(response);
+				let comics = response.data.results;
+				let randomNum = Math.floor(Math.random() * (comics.length - 1));
+				this.title = comics[randomNum].title;
+				this.comic = `${comics[randomNum].thumbnail.path}.${comics[randomNum].thumbnail.extension}`;
+
+				this._$scope.$digest();
+			}).catch((e) => {
+				document.querySelector(".loading").classList.add("hidden");
+			});
+	}
 }
 
 App.controller('CharacterController', CharacterController);

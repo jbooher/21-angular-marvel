@@ -2,12 +2,34 @@
 <html ng-app="app">
   <head>
     <meta charset="utf-8">
-    <title>Routing!</title>
+    <title>Marvel Revisited - Assigment 21</title>
     <link rel="stylesheet" href="/styles/main.css">
   </head>
   <body>
+    <div class="loading hidden"><p>Page Loading<p></div>
+
+    <nav class="nav">
+      <ul class="nav--list">
+        <li class="nav--character">
+          <a ui-sref="character({ name: 'Captain America' })">Captain America</a>
+        </li>
+        <li class="nav--character">
+          <a ui-sref="character({ name: 'Spider-Man' })">Spider-Man</a>
+        </li>
+        <li class="nav--character">
+          <a ui-sref="character({ name: 'Wolverine' })">Wolverine</a>
+        </li>
+        <li class="nav--character">
+          <a ui-sref="character({ name: 'Deadpool' })">Deadpool</a>
+        </li>
+        <li class="nav--character">
+          <a ui-sref="character({ name: 'Apocalypse' })">Apocalypse</a>
+        </li>
+      </ul>
+    </nav>
 
     <div ui-view></div>
+
 
     <script src="/js/app.js" charset="utf-8"></script>
   </body>
