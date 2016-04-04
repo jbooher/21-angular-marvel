@@ -26,6 +26,14 @@ var App = angular.module('app', ['ui.router']);
 */
 
 function config($stateProvider, $urlRouterProvider) {
+	$stateProvider
+		.state('character', {
+			url: '/characters/:name',
+			controller: "CharacterController as charCtrl",
+			template: require('./views/character.html')
+		});
+
+		$urlRouterProvider.otherwise("/characters/Captain America");
 }
 
 App.config(config);
@@ -79,8 +87,35 @@ App.config(config);
 class CharacterController {
 
 	constructor($scope, $stateParams) {
+		this.name = $stateParams.name;
+		this._$scope = $scope;
+		this.getData();
+		document.querySelector(".loading").classList.remove("hidden");
 	}
 
+	getData() {
+		const token = `6e7bd33438a14b84d91097cd3cfc46b5`;
+
+		fetch(`http://gateway.marvel.com:80/v1/public/characters?name=${this.name}&apikey=${token}`)
+			.then((response) => {
+				return response.json();
+			})
+			.then((response) => {
+				console.log(response);
+				this.description = response.data.results[0].description;
+				console.log(this.description);
+				this.id = response.data.results[0].id;
+				console.log(this.id);
+				this.image = `${response.data.results[0].thumbnail.path}.${response.data.results[0].thumbnail.extension}`;
+				console.log(this.image);
+
+				document.querySelector(".loading").classList.add("hidden");
+
+				this._$scope.$digest();
+			}).catch((e) => {
+				document.querySelector(".loading").classList.add("hidden");
+			});
+	}
 }
 
 App.controller('CharacterController', CharacterController);
