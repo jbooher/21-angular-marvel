@@ -21,24 +21,60 @@ body {
     transform: translate(-50%, -50%); }
 
 .nav {
+  background-color: #0000cc;
   margin: 0; }
-  .nav ul {
-    margin: 0;
+  .nav--list {
+    margin: 0 0 20px 0;
     padding: 0;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    list-style: none; }
-    .nav ul li {
-      margin-bottom: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 200px;
-      height: 50px;
-      background-color: #000; }
+    list-style: none;
+    border-bottom: 3px solid #00004d; }
+  .nav--character {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 50px;
+    text-transform: uppercase; }
+    .nav--character a {
+      text-decoration: none;
+      color: #fff;
+      transition: color, .5s; }
+      .nav--character a:hover {
+        color: #cc9900;
+        transition: color, .5s; }
 
-img {
-  height: 100px;
-  width: 100px; }
+.character {
+  width: 100%;
+  text-align: center; }
+  .character--image {
+    width: 600px;
+    height: 600px;
+    border: 2px solid #000;
+    border-radius: 5px;
+    transition: box-shadow, 1s; }
+    .character--image:hover {
+      box-shadow: 0px 0px 50px 10px rgba(0, 0, 0, 0.75);
+      transition: box-shadow, 1s; }
+  .character--name {
+    font-size: 2rem;
+    margin: -5px 0 0 0;
+    text-transform: uppercase; }
+  .character--description {
+    margin: 20px auto;
+    width: 604px;
+    text-align: justify; }
+  .character--comic {
+    margin: 10px;
+    font-size: 2rem; }
+    .character--comic-img {
+      width: 600px;
+      border: 2px solid #000;
+      border-radius: 5px;
+      transition: box-shadow, 1s; }
+      .character--comic-img:hover {
+        box-shadow: 0px 0px 50px 10px rgba(0, 0, 0, 0.75);
+        transition: box-shadow, 1s; }

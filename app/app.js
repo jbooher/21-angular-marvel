@@ -110,7 +110,7 @@ class CharacterController {
 
 				this.getComicData();
 
-				// this._$scope.$digest();
+				this._$scope.$digest();
 			}).catch((e) => {
 				document.querySelector(".loading").classList.add("hidden");
 			});
@@ -127,11 +127,12 @@ class CharacterController {
 				console.log(response);
 				let comics = response.data.results;
 				let randomNum = Math.floor(Math.random() * (comics.length - 1));
-				console.log(comics[randomNum]);
+				this.title = comics[randomNum].title;
 				this.comic = `${comics[randomNum].thumbnail.path}.${comics[randomNum].thumbnail.extension}`;
-				console.log(this.comic);
 
 				this._$scope.$digest();
+			}).catch((e) => {
+				document.querySelector(".loading").classList.add("hidden");
 			});
 	}
 }
